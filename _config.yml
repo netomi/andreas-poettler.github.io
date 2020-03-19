@@ -4,6 +4,7 @@ description: >
   Andreas Poettler - Konzertgitarrist
 url: "http://poettler.atspace.eu"
 baseurl: /
+google_analytics: UA-70394167-3
 
 sass:
   sass_dir: css

@@ -8,4 +8,8 @@
   <title>{{ page.title }} - {{ site.title }}</title>
 
   <link rel="stylesheet" href="css/style.css">
+
+  {% if site.google_analytics and jekyll.environment == 'production' %}
+  {% include analytics.html %}
+  {% endif %}
 </head>
