@@ -1,0 +1,28 @@
+# Site settings
+title: Andreas Poettler
+description: >
+  Andreas Poettler - Konzertgitarrist
+url: "http://poettler.atspace.eu"
+baseurl: /
+
+sass:
+  sass_dir: css
+  sourcemap: never
+  style:    compressed
+
+# Build settings
+markdown: kramdown
+
+highlighter: rouge
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+collections:
+  events:
+    output: false
+
+exclude:
+  - .idea
+  - .jekyll-cache

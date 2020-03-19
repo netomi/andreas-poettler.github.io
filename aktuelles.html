@@ -1,0 +1,56 @@
+---
+layout: page
+title: aktuelles
+sidebar-image: img/Andreas_1.png
+---
+
+<h1 class="title">Konzerte/Veranstaltungen</h1>
+
+<div class="post">
+
+	<h2 class="title">Gitarrenkonzerte</h2>
+
+	{% assign events = site.events | where: 'type', 'konzert' | sort: 'date' | reverse %}
+	{% for event in events %}
+
+	<div class="entry row">
+		{% if event.image %}
+		<div class="col-md-2">
+			<a href="{{ event.image }}"><img src="{{ event.thumbnail }}" class="img-thumbnail" /></a>
+		</div>
+		{% else %}
+		<div class="col-md-2">
+			&nbsp;
+		</div>
+		{% endif %}
+		<div class="col-md-10">
+			{% if event.image %}
+			<span><b>{{ event.datestring }}</b> {{ event.content }} </span>
+            {% else %}
+			<p><span><b>{{ event.datestring }}</b>, {{ event.content | remove: '<p>' | remove: '</p>' }} </span></p>
+			{% endif %}
+		</div>
+	</div>
+
+	<br/>
+
+	{% endfor %}
+</div>
+
+
+<div class="post">
+	<h2 class="title">Wettbewerbe</h2>
+
+	{% assign events = site.events | where: 'type', 'wettbewerb' | sort: 'date' | reverse %}
+	{% for event in events %}
+
+	<div class="entry row">
+		<div class="col-md-10">
+			<span><b>{{ event.datestring }}</b>, {{ event.content | remove: '<p>' | remove: '</p>' }} </span>
+		</div>
+	</div>
+
+	<br/>
+
+	{% endfor %}
+</div>

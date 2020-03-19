@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include header.html %}
+  <body>
+    <div class="container">
+      {% include title.html %}
+
+      {% include navbar.html %}
+
+      <div id="wrapper">
+        <div id="wrapper-btm">
+          <div id="page">
+            <div id="content">
+
+            {{ content }}
+
+            </div>
+
+            <div id="sidebar">
+              <ul>
+                <img src="{{ page.sidebar-image }}" alt="Andreas Poettler" width="190" class="center"/>
+              </ul>
+            </div>
+
+            <div style="clear: both;">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include footer.html %}
+  </body>
+</html>
