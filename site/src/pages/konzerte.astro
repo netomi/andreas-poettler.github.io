@@ -1,7 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import stage from '../assets/photos/konzert-buehne.jpg';
 ---
 <Base title="Konzerte" description="Konzerte und Musik für Ihre Veranstaltung – Hochzeit, Taufe, Vernissage, Lesung.">
+  <Image class="photo photo-wide" src={stage} alt="Andreas Pöttler im Konzert auf der Bühne" widths={[640, 800, 1000]} sizes="50rem" quality={75} />
   <p class="lead">Ein Konzert ist für mich ein zum Leben erwecken von Gefühlen und Empfindungen. Der Charakter eines Stückes, gepaart mit der künstlerischen Interpretation und der individuellen Wahrnehmung jedes Zuhörers, bildet ein lebendiges Ganzes.</p>
   <p>Gerne verschönere ich auch Ihre Veranstaltung musikalisch – sei es ein Konzert, eine Lesung, eine Vernissage oder ein privates Erlebnis wie eine Hochzeit, Taufe oder Geburtstagsfeier. Jeder Anlass ist ein Anlass für Musik! <a href="/kontakt">Kontakt aufnehmen</a></p>
 </Base>

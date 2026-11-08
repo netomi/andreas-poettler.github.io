@@ -1,7 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import portrait from '../assets/photos/portrait-fenster.jpg';
 ---
 <Base title="Vita" heading="Über mich">
+  <Image class="photo photo-right" src={portrait} alt="Andreas Pöttler" widths={[340, 520]} sizes="17rem" quality={75} />
   <p>Im Alter von sieben Jahren begann ich an der Musikschule Pöllau mit dem Gitarrenspiel. Aller Anfang ist schwer, und tatsächlich erging es auch mir nicht anders. Als ich jedoch die Vielseitigkeit des Instrumentes besser kennen lernte, packte mich der Ehrgeiz und der Wunsch, mehr zu können. Intensive Übungseinheiten zeigten ihre Wirkung, und so erreichte ich bald beim Jugendwettbewerb Prima La Musica in Graz den 1. Platz mit Berechtigung zum Bundeswettbewerb. Beflügelt vom Erfolg folgten weitere Preise bei Landes- und Bundeswettbewerben. Mit der Zeit entwickelte sich aus dem Hobby „Gitarre spielen“ meine größte Leidenschaft. Mit dem Ziel vor Augen, Musik zu meinem Lebensmittelpunkt zu machen, absolvierte ich den musikalischen Zweig am BORG Birkfeld und begann im Maturajahr bereits mit dem Vorbereitungslehrgang für Konzertfach Gitarre an der Universität für Musik und darstellende Kunst in Wien.</p>
   <p>Bald darauf fand ich in der Musikstadt Wien meine zweite Heimat und begann mit den Studien Konzertfach Gitarre (mit Schwerpunkt Kammermusik) und Instrumentalpädagogik (mit Schwerpunkt Popularmusik) an der Musik und Kunst Privatuniversität der Stadt Wien (MUK) und an der Universität für Musik und darstellende Kunst in Wien (MDW), die ich ein paar Jahre später mit Auszeichnung abschließen konnte. Aus dem Genre der Popularmusik haben es mir vor allem Flamenco, Fingerstyle Guitar und Jazz angetan.</p>
   <p>Während dieser Zeit habe ich viele Auftritte im In- und Ausland absolviert, unter anderem in Deutschland, Polen, Ungarn und Kanada. Weiters konnte ich ein „High Virtuosity“-Auswahlspiel gewinnen und mein Debüt im Wiener Musikverein geben. Es folgten Livemitschnitte für Radio und TV und die Teilnahme an internationalen Wettbewerben und Meisterkursen.</p>

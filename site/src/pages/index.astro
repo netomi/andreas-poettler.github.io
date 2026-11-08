@@ -1,6 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
+import { Image } from 'astro:assets';
 import Icon from '../components/Icon.astro';
+import heroPhoto from '../assets/photos/gitarre-wiese.jpg';
+import portrait from '../assets/photos/portrait.jpg';
+import stage from '../assets/photos/konzert-buehne.jpg';
 
 const features = [
   { href: '/unterricht', icon: 'book', title: 'Unterricht', text: 'Gitarrenunterricht für Kinder, Jugendliche und Erwachsene – auch online.' },
@@ -24,6 +28,7 @@ const quotes = [
 ---
 <Base title="Start" home>
   <section class="hero">
+    <Image class="hero-img" src={heroPhoto} alt="" widths={[800, 1280, 1920]} sizes="100vw" quality={70} loading="eager" fetchpriority="high" />
     <div class="wrap">
       <span class="eyebrow">Gitarrist · Pädagoge · Songwriter</span>
       <h1>Andreas Pöttler</h1>
@@ -50,7 +55,7 @@ const quotes = [
 
   <section class="block">
     <div class="wrap split">
-      <div class="portrait" role="img" aria-label="Platzhalter für Porträtfoto">AP</div>
+      <div class="portrait"><Image src={portrait} alt="Andreas Pöttler mit Gitarre" widths={[480, 720, 960]} sizes="(min-width: 52rem) 35rem, 100vw" quality={75} loading="lazy" /></div>
       <div>
         <span class="eyebrow" style="color:var(--blue)">Über mich</span>
         <h2>Aus dem Hobby wurde Leidenschaft</h2>
@@ -86,7 +91,7 @@ const quotes = [
 
   <section class="block">
     <div class="wrap split rev">
-      <div class="portrait" role="img" aria-label="Platzhalter für Konzertfoto" style="aspect-ratio:4/3;font-size:3.5rem">♪</div>
+      <div class="portrait" style="aspect-ratio:4/3"><Image src={stage} alt="Andreas Pöttler im Konzert auf der Bühne" widths={[480, 720, 960]} sizes="(min-width: 52rem) 35rem, 100vw" quality={75} loading="lazy" /></div>
       <div>
         <span class="eyebrow" style="color:var(--blue)">Veranstaltungen</span>
         <h2>Musik für Ihre Anlässe</h2>

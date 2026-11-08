@@ -1,15 +1,30 @@
 ---
+import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-// Fill with files from public/img once the WordPress uploads are available, e.g.
-// { src: 'laurandy-live-1.jpg', alt: 'Laurandy live', credit: 'Foto Prietl' }
-const photos: { src: string; alt: string; credit?: string }[] = [];
+import wiese from '../assets/photos/gitarre-wiese.jpg';
+import saeulen from '../assets/photos/gitarre-saeulen.jpg';
+import sitzend from '../assets/photos/gitarre-sitzend.jpg';
+import fenster from '../assets/photos/portrait-fenster.jpg';
+import stehend from '../assets/photos/gitarre-stehend.jpg';
+import mauer from '../assets/photos/gitarre-mauer.jpg';
+import buehne from '../assets/photos/konzert-buehne.jpg';
+// Add the photographer's name as `credit` where known (the WordPress site credited "Foto Prietl" / "Foto Fischer").
+const photos: { img: ImageMetadata; alt: string; credit?: string }[] = [
+  { img: saeulen, alt: 'Andreas Pöttler an einer Steinsäule' },
+  { img: wiese, alt: 'Andreas Pöttler mit Gitarre im Freien' },
+  { img: sitzend, alt: 'Andreas Pöttler sitzend mit Gitarre' },
+  { img: fenster, alt: 'Porträt von Andreas Pöttler mit Gitarre' },
+  { img: stehend, alt: 'Andreas Pöttler stehend mit Gitarre' },
+  { img: mauer, alt: 'Andreas Pöttler an einer Mauer' },
+  { img: buehne, alt: 'Andreas Pöttler im Konzert' },
+];
+const items = await Promise.all(photos.map(async (p) => ({ ...p, full: (await getImage({ src: p.img, width: 2000, quality: 80 })).src })));
 ---
 <Base title="Fotos">
-  {photos.length === 0 && <p class="notice">Fotos folgen.</p>}
   <div class="gallery">
-    {photos.map((p) => (
+    {items.map((p) => (
       <figure style="margin:0">
-        <a href={`/img/${p.src}`}><img src={`/img/${p.src}`} alt={p.alt} loading="lazy" /></a>
+        <a href={p.full}><Image src={p.img} alt={p.alt} widths={[400, 640]} sizes="(min-width: 52rem) 16rem, 50vw" quality={70} loading="lazy" /></a>
         {p.credit && <figcaption>© {p.credit}</figcaption>}
       </figure>
     ))}
