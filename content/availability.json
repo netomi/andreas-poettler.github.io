@@ -1,0 +1,11 @@
+{
+  "timezone": "Europe/Vienna",
+  "slotMinutes": 45,
+  "horizonDays": 42,
+  "minNoticeHours": 24,
+  "weekly": [
+    { "weekday": 2, "start": "15:00", "end": "19:00" },
+    { "weekday": 4, "start": "15:00", "end": "18:00" }
+  ],
+  "blockedDates": []
+}

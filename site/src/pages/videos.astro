@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+// Click-to-load: nothing is requested from YouTube until a visitor presses play (privacy).
+const ids = ['a1O2sKHKquc', '76We1wP1IKM', 'bBK80kEJu58', 'TQqMkNbgfBY', 'opiz1AgnULU', 'ePnj4r_-zrQ', 'I2rRz5EjaaM', 'vgy-XiCzT2M', 'gWNiQnR3UkA', 'jqHDbRQzb2E', 'xao3vUPyOrY'];
+---
+<Base title="Videos">
+  <h1>Videos</h1>
+  <p>Beim Abspielen werden Daten an YouTube übertragen (<a href="/datenschutz">Datenschutz</a>).</p>
+  <div class="videos">
+    {ids.map((id, n) => (
+      <button class="video" data-id={id} type="button">▶ Video {n + 1} abspielen</button>
+    ))}
+  </div>
+</Base>
+<style>
+  .videos { display: grid; gap: 1rem; }
+  .video { aspect-ratio: 16/9; width: 100%; background: var(--line); color: var(--fg); border: 0; font-size: 1rem; }
+  iframe { width: 100%; aspect-ratio: 16/9; border: 0; }
+</style>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('button.video').forEach((b) =>
+    b.addEventListener('click', () => {
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${b.dataset.id}?autoplay=1`;
+      f.allow = 'autoplay; encrypted-media; picture-in-picture'; f.allowFullscreen = true; f.title = b.textContent ?? 'Video';
+      b.replaceWith(f);
+    }),
+  );
+</script>

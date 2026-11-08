@@ -1,0 +1,21 @@
+# SITE_ADDRESS=andreas-poettler.at (production) or localhost (default).
+services:
+  web:
+    build: { context: ., dockerfile: Dockerfile.site }
+    ports: ["80:80", "443:443"]
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-localhost}
+    volumes: [caddy_data:/data]
+    depends_on: [api]
+    restart: unless-stopped
+  api:
+    build: { context: ., dockerfile: Dockerfile.api }
+    environment:
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set ADMIN_PASSWORD in .env}
+    volumes:
+      - ./content:/content:ro
+      - api_data:/data
+    restart: unless-stopped
+volumes:
+  caddy_data:
+  api_data:

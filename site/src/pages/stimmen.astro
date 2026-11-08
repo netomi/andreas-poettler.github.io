@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+const reviews = [
+  ['2021', 'MeinBezirk.at', 'Acht Titel sind am neuen Silberling verewigt worden. Dabei schnallt sich der eigentlich aus der klassischen Musik kommende Pöttler auch die „Stromgitarre“ um. Sechs Titel am Album sind in englischer Sprache, zwei in Deutsch gehalten. Es sind wohltuende Klänge ohne viel Ecken und Kanten, gefällig, leicht verdaulich und zeitgemäß. Die hervorragende Stimme von Ablasser kommt bei Nummern wie „More Time“ oder „Tage vergeh’“ so richtig zum Tragen. Beim Titel „Like Reggae“ oder „I keep my Cool“ kann sich der Klassikgitarrist Pöttler ein wenig auf der E-Gitarre austoben. Ein neuer Stern aus der Steiermark am österreichischen Musikhimmel … Unbedingt ins Album reinhören … und natürlich kaufen.'],
+  ['2019', 'Meine Woche', 'Andreas Pöttler brachte südamerikanisches Feeling in den Europassal und verzauberte mit spanischen Gitarrenklängen. … ein viel beachtetes und umjubeltes Solokonzert …'],
+  ['2015', 'Kleine Zeitung', 'Mit ausgewählten Melodien von Klassik … bis zum feurigen Flamenco – vermittelte Andreas Pöttler das reichhaltige Klangspektrum und die Vielfalt an technischen Möglichkeiten, die das Gitarrenspiel bieten kann. Er begeisterte mit seiner Virtuosität.'],
+  ['2013', 'Meine Woche', '… begeisterte der Gitarrist mit einem viele Genre umfassenden Programm … virtuos spielte sich Andreas Pöttler durch Klassik, Tango, Jazz und Pop …'],
+  ['2010', 'Burgenländische Volkszeitung (BVZ)', '… zarte Gitarrenklänge gepaart mit temperamentvoller Rhythmik, einfühlsam, harmonisch, lässig.'],
+  ['2008', 'Niederösterreichische Nachrichten (NÖN)', '… Der junge Pöttler zog die Gäste mit spanischen Klängen in seinen Bann … von solchen Musikgenüssen kann es gar nicht genug geben …'],
+];
+const referenzen = [
+  ['„Ein Zitat, welches Andreas lebt. Denn er lebt nicht nur die Musik, sondern liebt sie auch. Dieses Gefühl gibt er an seine SchülerInnen weiter. Unsere Klara äußerte mit vier Jahren den Wunsch, Gitarre spielen zu wollen, so sind wir zum besten Gitarrenlehrer gekommen. Andreas besitzt diese wundervolle Gabe, Kinder zu begeistern und sie da abzuholen, wo sie musikalisch gerade stehen. … Er hat das richtige Gefühl, Kinder zu fordern, jedoch nicht zu überfordern, sodass die Freude und der Spaß am Musizieren immer im Vordergrund stehen. Unsere Klara freut sich nun schon seit drei Jahren jede Woche auf den Gitarrenunterricht und verlässt die Stunde jedes Mal mit strahlenden Augen.“', 'Sabrina Schittl'],
+  ['„Andreas ist ein toller Lehrer. Ich lerne viele coole Lieder und es macht immer Spaß. Er arbeitet mit mir in meinem Tempo und lässt mir Zeit, die Lieder zu lernen.“', 'Kim Scheucher, 12 Jahre'],
+  ['„Andy hat unsere standesamtliche Hochzeit im Schlossgarten Pöllau musikalisch wunderschön mit seiner Gitarre untermalt – das war sozusagen das Tüpfchen auf dem i, um diesen besonderen Tag für uns so unvergesslich zu machen. Knapp 5 Jahre später schloss sich dann der Kreis: Andy hat zusammen mit Laura auf der Taufe unseres Sohns Alois für die musikalische Begleitung gesorgt. Herzlichen Dank für diese unvergesslichen Momente!“', 'Nikolai & Petra'],
+  ['„Wir, Sarah und Victoria Kandlhofer, sind schon seit vielen Jahren im Unterricht von Andreas. Nur durch sein großes Engagement spielen wir schon so lange Gitarre und haben mit seiner Hilfe bereits einige Wettbewerbe gewonnen. Andreas ist ein toller Motivator und hat auch schon sehr viel Privatzeit in unsere Ausbildung investiert. Wir können Andreas mit voller Überzeugung weiterempfehlen.“', 'Sarah (15) & Victoria (13)'],
+  ['„Ich bin 60 Jahre alt und nehme bei Andreas Pöttler Gitarrenunterricht. Andreas ist für mich ein leidenschaftlicher Musiker und Lehrer, der mit viel Liebe und Herzblut dabei ist. Die Musikstücke sind abwechslungsreich, von Pop bis Klassik ist alles dabei! Ich komme immer wieder gerne zum Unterricht. Danke, lieber Andreas, für deine Zeit und Geduld!“', 'Silvia Schittl'],
+  ['„Mir gefällt der Gitarrenunterricht bei Andreas Pöttler sehr gut. Vor allem aber gefällt mir, dass er von Grund auf alles so genau erklärt. Außerdem kann man bei ihm auch moderne Lieder, z. B. Lieder aus dem Radio, lernen.“', 'Lisa Maier, 13 Jahre'],
+  ['„Wir schätzen die Arbeit von Andreas Pöttler sehr. Er kann gut mit kleinen Kindern umgehen. Die Stücke, die er mit unserem Sohn erarbeitet, sind aufbauend und werden von ihm gerne gespielt und geübt.“', 'Veronika & Robert Feiner'],
+  ['„Spielerisch und mit sehr viel Herzlichkeit wird den Kindern das Gitarrespielen beigebracht. Die Freude am Musizieren wird authentisch vermittelt und motiviert die Kinder fürs Üben. Es wird individuell auf die Kinder eingegangen, weshalb der Unterricht auch für die Jüngsten hervorragend geeignet ist.“', 'Christine Loder'],
+  ['„Ich bin immer sehr gerne zum Unterricht gegangen, weil ich mich bei meinem Können abgeholt fühlte, mir weder unter- noch überfordert vorkam und ich viel lernen durfte. Die Stunden waren immer geprägt von Herzlichkeit, Humor und großer musikalischer Fertigkeit.“', 'Georg Gatterbauer (19)'],
+];
+---
+<Base title="Stimmen" description="Pressestimmen und Referenzen von SchülerInnen und Auftraggebern.">
+  <h1>Kritiken</h1>
+  {reviews.map(([year, source, text]) => (
+    <blockquote><p>{text}</p><cite>{source}, {year}</cite></blockquote>
+  ))}
+  <h2>Referenzen</h2>
+  <p><em>„Im Wesen der Musik liegt es, Freude zu bereiten.“</em> (Aristoteles)</p>
+  {referenzen.map(([text, who]) => (
+    <blockquote><p>{text}</p><cite>{who}</cite></blockquote>
+  ))}
+</Base>

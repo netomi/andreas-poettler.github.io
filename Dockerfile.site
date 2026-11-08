@@ -1,0 +1,11 @@
+FROM node:22-alpine AS build
+WORKDIR /build
+COPY site/package*.json site/
+RUN cd site && npm ci
+COPY content content
+COPY site site
+RUN cd site && npm run build
+
+FROM caddy:2-alpine
+COPY --from=build /build/site/dist /srv
+COPY Caddyfile /etc/caddy/Caddyfile

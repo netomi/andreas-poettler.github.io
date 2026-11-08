@@ -1,0 +1,50 @@
+---
+import '../styles/global.css';
+interface Props { title: string; description?: string }
+const { title, description = 'Andreas Pöttler – Gitarrist, Pädagoge und Songwriter' } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '');
+const nav = [
+  ['/vita', 'vita'],
+  ['/konzerte', 'konzerte'],
+  ['/laurandy', 'laurandy'],
+  ['/fotos', 'fotos'],
+  ['/videos', 'videos'],
+  ['/stimmen', 'stimmen'],
+  ['/unterricht', 'unterricht'],
+  ['/buecher', 'bücher'],
+  ['/kontakt', 'kontakt'],
+];
+const full = path === '' ? 'Andreas Pöttler – Konzertgitarrist' : `${title} – Andreas Pöttler`;
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{full}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <a class="brand" href="/">Andreas Pöttler</a>
+        <nav aria-label="Hauptnavigation">
+          <ul>
+            {nav.map(([href, label]) => (
+              <li><a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main><div class="wrap"><slot /></div></main>
+    <footer class="site">
+      <div class="wrap">
+        <span>© Andreas Pöttler</span>
+        <a href="/impressum">Impressum</a>
+        <a href="/datenschutz">Datenschutz</a>
+      </div>
+    </footer>
+  </body>
+</html>

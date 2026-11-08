@@ -1,0 +1,23 @@
+{$SITE_ADDRESS:localhost} {
+	encode zstd gzip
+	# URLs of the old WordPress site
+	redir /lebenslauf /vita permanent
+	redir /contact /kontakt permanent
+	redir /teaching /unterricht permanent
+	redir /unterrichten /unterricht permanent
+	redir /referenzen /stimmen permanent
+	redir /referenzen-2 /stimmen permanent
+	redir /kritiken /stimmen permanent
+	handle /api/* {
+		reverse_proxy api:3000
+	}
+	handle {
+		root * /srv
+		try_files {path} {path}.html
+		file_server
+	}
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}

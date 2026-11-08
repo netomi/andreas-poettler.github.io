@@ -1,0 +1,16 @@
+[
+  {
+    "id": "beispiel-gitarrenschule",
+    "title": "Gitarrenschule [STUB]",
+    "description": "STUB – echte Titel, Preise und Beschreibungen folgen.",
+    "priceCents": 1990,
+    "image": null
+  },
+  {
+    "id": "beispiel-notenheft",
+    "title": "Notenheft [STUB]",
+    "description": "STUB – echte Titel, Preise und Beschreibungen folgen.",
+    "priceCents": 1490,
+    "image": null
+  }
+]

@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+// Fill with files from public/img once the WordPress uploads are available, e.g.
+// { src: 'laurandy-live-1.jpg', alt: 'Laurandy live', credit: 'Foto Prietl' }
+const photos: { src: string; alt: string; credit?: string }[] = [];
+---
+<Base title="Fotos">
+  <h1>Fotos</h1>
+  {photos.length === 0 && <p class="notice">Fotos folgen.</p>}
+  <div class="gallery">
+    {photos.map((p) => (
+      <figure style="margin:0">
+        <a href={`/img/${p.src}`}><img src={`/img/${p.src}`} alt={p.alt} loading="lazy" /></a>
+        {p.credit && <figcaption>© {p.credit}</figcaption>}
+      </figure>
+    ))}
+  </div>
+</Base>

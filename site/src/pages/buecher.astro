@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import books from '../../../content/books.json';
+const eur = new Intl.NumberFormat('de-AT', { style: 'currency', currency: 'EUR' });
+---
+<Base title="Bücher" description="Bücher und Noten von Andreas Pöttler bestellen.">
+  <h1>Bücher</h1>
+  <p>Bestellen Sie direkt bei mir. Sie erhalten eine Bestätigung per E-Mail, Zahlung erfolgt per Rechnung.</p>
+
+  <form id="order" class="stack" novalidate>
+    {books.map((b) => (
+      <label>
+        <span><strong>{b.title}</strong> – {eur.format(b.priceCents / 100)}<br /><small>{b.description}</small></span>
+        <input type="number" min="0" max="20" value="0" data-book={b.id} aria-label={`Anzahl ${b.title}`} />
+      </label>
+    ))}
+    <label>Name <input name="name" required autocomplete="name" /></label>
+    <label>E-Mail <input name="email" type="email" required autocomplete="email" /></label>
+    <label>Lieferadresse <textarea name="address" rows="3" required autocomplete="street-address"></textarea></label>
+    <label>Anmerkung (optional) <textarea name="message" rows="2"></textarea></label>
+    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+    <div><button type="submit">Bestellung senden</button></div>
+    <div id="result" role="status"></div>
+  </form>
+</Base>
+
+<script>
+  const form = document.getElementById('order') as HTMLFormElement;
+  const result = document.getElementById('result')!;
+  const button = form.querySelector('button')!;
+  function show(msg: string, error = false) { result.className = 'notice' + (error ? ' error' : ''); result.textContent = msg; }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const items = [...form.querySelectorAll<HTMLInputElement>('input[data-book]')]
+      .map((i) => ({ id: i.dataset.book!, qty: Number(i.value) })).filter((i) => i.qty > 0);
+    if (!items.length) return show('Bitte mindestens ein Buch auswählen.', true);
+    if (!form.reportValidity()) return;
+    button.disabled = true;
+    const fd = Object.fromEntries(new FormData(form));
+    try {
+      const res = await fetch('/api/orders', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ ...fd, items }) });
+      const body = await res.json();
+      if (!res.ok) { show(body.error ?? 'Fehler beim Senden.', true); button.disabled = false; return; }
+      form.reset(); show('Danke! Ihre Bestellung ist eingegangen. Sie erhalten eine Bestätigung per E-Mail.'); button.disabled = false;
+    } catch { show('Netzwerkfehler. Bitte später erneut versuchen.', true); button.disabled = false; }
+  });
+</script>
