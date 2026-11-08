@@ -1,8 +1,138 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+
+const features = [
+  { href: '/unterricht', icon: 'book', title: 'Unterricht', text: 'Gitarrenunterricht für Kinder, Jugendliche und Erwachsene – auch online.' },
+  { href: '/konzerte', icon: 'calendar', title: 'Veranstaltungen', text: 'Musik für Ihre Anlässe: Hochzeiten, Taufen, Vernissagen und mehr.' },
+  { href: '/buecher', icon: 'bag', title: 'Shop', text: 'Lehrbücher, Übungshefte, CDs …' },
+  { href: '/stimmen', icon: 'quote', title: 'Referenzen', text: 'Ihre Meinung ist mir wichtig.' },
+] as const;
+
+const lessons = [
+  { icon: 'music', title: 'Gitarrenunterricht', text: 'Für Kinder ab 4 Jahren, Jugendliche und musikbegeisterte Erwachsene.' },
+  { icon: 'mic', title: 'Sicher auftreten', text: 'Mentaltraining für sicheres Auftreten und Vorspiel ohne Noten.' },
+  { icon: 'cap', title: 'Aufnahmeprüfungen', text: 'Vorbereitung auf die Aufnahmeprüfung an Unis, BAfEP oder auf Wettbewerbe.' },
+  { icon: 'users', title: 'Kursangebote', text: 'Gemeinsam musizieren – ab 3 Personen.' },
+] as const;
+
+const quotes = [
+  ['Er arbeitet mit mir in meinem Tempo und lässt mir Zeit, die Lieder zu lernen.', 'Kim Scheucher, 12 Jahre'],
+  ['Spielerisch und mit sehr viel Herzlichkeit wird den Kindern das Gitarrespielen beigebracht. Die Freude am Musizieren wird authentisch vermittelt.', 'Christine Loder'],
+  ['Andy hat unsere Hochzeit im Schlossgarten Pöllau musikalisch wunderschön untermalt – das war das Tüpfchen auf dem i.', 'Nikolai & Petra'],
+];
 ---
-<Base title="Start">
-  <h1>Andreas Pöttler</h1>
-  <p class="lead">Gitarrist, Pädagoge und Songwriter – Gitarrenunterricht, Konzerte und Musik für Ihre Anlässe: Hochzeiten, Taufen, Vernissagen und vieles mehr.</p>
-  <p><a class="btn" href="/unterricht">Probestunde buchen</a> &nbsp; <a href="/konzerte">Konzerte</a></p>
+<Base title="Start" home>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Gitarrist · Pädagoge · Songwriter</span>
+      <h1>Andreas Pöttler</h1>
+      <p class="lead">Gitarrenunterricht, Konzerte und Musik für Ihre Anlässe – mit Leidenschaft, Geduld und Freude an der Musik.</p>
+      <div class="actions">
+        <a class="btn light" href="/unterricht#termin">Probestunde buchen</a>
+        <a class="btn outline-light" href="/kontakt">Konzert anfragen</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="wrap grid f4">
+      {features.map((f) => (
+        <a class="card" href={f.href}>
+          <span class="ico"><Icon name={f.icon} /></span>
+          <h3>{f.title}</h3>
+          <p>{f.text}</p>
+          <span class="more">Mehr erfahren <Icon name="arrow" size={18} /></span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap split">
+      <div class="portrait" role="img" aria-label="Platzhalter für Porträtfoto">AP</div>
+      <div>
+        <span class="eyebrow" style="color:var(--blue)">Über mich</span>
+        <h2>Aus dem Hobby wurde Leidenschaft</h2>
+        <p class="lead">Mit sieben Jahren begann ich an der Musikschule Pöllau mit der Gitarre. Heute unterrichte ich an der Musikschule Weiz – und meine SchülerInnen haben seit 2016 mehr als 20 erste Preise bei Wettbewerben gewonnen.</p>
+        <ul class="checks">
+          <li>Konzertfach Gitarre und Instrumentalpädagogik, jeweils mit Auszeichnung</li>
+          <li>Auftritte in Österreich, Deutschland, Polen, Ungarn und Kanada</li>
+          <li>Dozent bei Meisterkursen, Juror bei Wettbewerben</li>
+        </ul>
+        <a class="btn ghost" href="/vita">Mehr über mich</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block tint">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Unterricht</h2>
+        <p>Individuell, im eigenen Tempo und mit viel Raum für Lieblingslieder.</p>
+      </div>
+      <div class="grid f4">
+        {lessons.map((l) => (
+          <div class="card">
+            <span class="ico"><Icon name={l.icon} /></span>
+            <h3>{l.title}</h3>
+            <p>{l.text}</p>
+            <a class="btn ghost" href="/unterricht">Mehr erfahren</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap split rev">
+      <div class="portrait" role="img" aria-label="Platzhalter für Konzertfoto" style="aspect-ratio:4/3;font-size:3.5rem">♪</div>
+      <div>
+        <span class="eyebrow" style="color:var(--blue)">Veranstaltungen</span>
+        <h2>Musik für Ihre Anlässe</h2>
+        <p class="lead">Jeder Anlass ist ein Anlass für Musik.</p>
+        <ul class="checks">
+          <li>Hochzeiten</li>
+          <li>Taufen</li>
+          <li>Musikalische Umrahmung diverser Feierlichkeiten</li>
+          <li>Solo oder als Duo (Gesang / Gitarre) mit <a href="/laurandy">Laurandy</a></li>
+        </ul>
+        <a class="btn" href="/konzerte">Mehr zu Konzerten</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block tint">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Referenzen</h2>
+        <p>Das sagen SchülerInnen und Auftraggeber.</p>
+      </div>
+      <div class="grid f3">
+        {quotes.map(([text, who]) => (
+          <figure class="quote"><p>{text}</p><cite>{who}</cite></figure>
+        ))}
+      </div>
+      <p style="margin-top:2rem"><a class="btn ghost" href="/stimmen">Alle Stimmen</a></p>
+    </div>
+  </section>
+
+  <section class="block dark">
+    <div class="wrap split">
+      <div>
+        <h2>Kontakt</h2>
+        <p>Für ein unverbindliches Erstgespräch oder Fragen zu Gitarrenunterricht und Konzerten – ich freue mich darauf, Sie kennenzulernen.</p>
+        <ul class="contact-list">
+          <li><span class="ico"><Icon name="phone" /></span><a href="tel:+436811085410">+43 681 108 541 10</a></li>
+          <li><span class="ico"><Icon name="mail" /></span><a href="mailto:poettler.andreas@gmx.at">poettler.andreas@gmx.at</a></li>
+          <li><span class="ico"><Icon name="pin" /></span><span>Rabenwald 135, 8225 Pöllau</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Gleich einen Termin sichern</h3>
+        <p>Wählen Sie online einen freien Unterrichtstermin – ich bestätige per E-Mail.</p>
+        <a class="btn light" href="/unterricht#termin">Termin buchen</a>
+      </div>
+    </div>
+  </section>
 </Base>

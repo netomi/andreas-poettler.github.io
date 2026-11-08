@@ -5,7 +5,6 @@ import Base from '../layouts/Base.astro';
 const photos: { src: string; alt: string; credit?: string }[] = [];
 ---
 <Base title="Fotos">
-  <h1>Fotos</h1>
   {photos.length === 0 && <p class="notice">Fotos folgen.</p>}
   <div class="gallery">
     {photos.map((p) => (

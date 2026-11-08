@@ -20,8 +20,7 @@ const referenzen = [
   ['„Ich bin immer sehr gerne zum Unterricht gegangen, weil ich mich bei meinem Können abgeholt fühlte, mir weder unter- noch überfordert vorkam und ich viel lernen durfte. Die Stunden waren immer geprägt von Herzlichkeit, Humor und großer musikalischer Fertigkeit.“', 'Georg Gatterbauer (19)'],
 ];
 ---
-<Base title="Stimmen" description="Pressestimmen und Referenzen von SchülerInnen und Auftraggebern.">
-  <h1>Kritiken</h1>
+<Base title="Stimmen" heading="Kritiken" description="Pressestimmen und Referenzen von SchülerInnen und Auftraggebern.">
   {reviews.map(([year, source, text]) => (
     <blockquote><p>{text}</p><cite>{source}, {year}</cite></blockquote>
   ))}
