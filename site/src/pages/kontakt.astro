@@ -1,8 +1,9 @@
 ---
+import { url } from '../lib/url';
 import Base from '../layouts/Base.astro';
 ---
 <Base title="Kontakt">
   <p><strong>Mag. Andreas Pöttler MA</strong><br />Gitarrist / Pädagoge / Songwriter<br />Tel. <a href="tel:+436811085410">+43 681 108 541 10</a><br />E-Mail: <a href="mailto:poettler.andreas@gmx.at">poettler.andreas@gmx.at</a><br />Rabenwald 135, 8225 Pöllau</p>
   <p>Kontaktieren Sie mich für ein unverbindliches Erstgespräch oder spezifische Fragen zu Gitarrenunterricht oder Konzerten. Ich freue mich darauf, Sie kennenzulernen.</p>
-  <p>Unterrichtstermine können Sie direkt <a href="/unterricht">online anfragen</a>.</p>
+  <p>Unterrichtstermine können Sie direkt <a href={url('/unterricht')}>online anfragen</a>.</p>
 </Base>

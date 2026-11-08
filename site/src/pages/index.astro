@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import { Image } from 'astro:assets';
 import Icon from '../components/Icon.astro';
@@ -34,8 +35,8 @@ const quotes = [
       <h1>Andreas Pöttler</h1>
       <p class="lead">Gitarrenunterricht, Konzerte und Musik für Ihre Anlässe – mit Leidenschaft, Geduld und Freude an der Musik.</p>
       <div class="actions">
-        <a class="btn light" href="/unterricht#termin">Probestunde buchen</a>
-        <a class="btn outline-light" href="/kontakt">Konzert anfragen</a>
+        <a class="btn light" href={url('/unterricht#termin')}>Probestunde buchen</a>
+        <a class="btn outline-light" href={url('/kontakt')}>Konzert anfragen</a>
       </div>
     </div>
   </section>
@@ -43,7 +44,7 @@ const quotes = [
   <section class="features">
     <div class="wrap grid f4">
       {features.map((f) => (
-        <a class="card" href={f.href}>
+        <a class="card" href={url(f.href)}>
           <span class="ico"><Icon name={f.icon} /></span>
           <h3>{f.title}</h3>
           <p>{f.text}</p>
@@ -65,7 +66,7 @@ const quotes = [
           <li>Auftritte in Österreich, Deutschland, Polen, Ungarn und Kanada</li>
           <li>Dozent bei Meisterkursen, Juror bei Wettbewerben</li>
         </ul>
-        <a class="btn ghost" href="/vita">Mehr über mich</a>
+        <a class="btn ghost" href={url('/vita')}>Mehr über mich</a>
       </div>
     </div>
   </section>
@@ -82,7 +83,7 @@ const quotes = [
             <span class="ico"><Icon name={l.icon} /></span>
             <h3>{l.title}</h3>
             <p>{l.text}</p>
-            <a class="btn ghost" href="/unterricht">Mehr erfahren</a>
+            <a class="btn ghost" href={url('/unterricht')}>Mehr erfahren</a>
           </div>
         ))}
       </div>
@@ -100,9 +101,9 @@ const quotes = [
           <li>Hochzeiten</li>
           <li>Taufen</li>
           <li>Musikalische Umrahmung diverser Feierlichkeiten</li>
-          <li>Solo oder als Duo (Gesang / Gitarre) mit <a href="/laurandy">Laurandy</a></li>
+          <li>Solo oder als Duo (Gesang / Gitarre) mit <a href={url('/laurandy')}>Laurandy</a></li>
         </ul>
-        <a class="btn" href="/konzerte">Mehr zu Konzerten</a>
+        <a class="btn" href={url('/konzerte')}>Mehr zu Konzerten</a>
       </div>
     </div>
   </section>
@@ -118,7 +119,7 @@ const quotes = [
           <figure class="quote"><p>{text}</p><cite>{who}</cite></figure>
         ))}
       </div>
-      <p style="margin-top:2rem"><a class="btn ghost" href="/stimmen">Alle Stimmen</a></p>
+      <p style="margin-top:2rem"><a class="btn ghost" href={url('/stimmen')}>Alle Stimmen</a></p>
     </div>
   </section>
 
@@ -136,7 +137,7 @@ const quotes = [
       <div>
         <h3>Gleich einen Termin sichern</h3>
         <p>Wählen Sie online einen freien Unterrichtstermin – ich bestätige per E-Mail.</p>
-        <a class="btn light" href="/unterricht#termin">Termin buchen</a>
+        <a class="btn light" href={url('/unterricht#termin')}>Termin buchen</a>
       </div>
     </div>
   </section>

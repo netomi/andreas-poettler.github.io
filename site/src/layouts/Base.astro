@@ -1,4 +1,6 @@
 ---
+import { url, stripBase } from '../lib/url';
+import { preview } from '../lib/config';
 import '@fontsource-variable/mulish';
 import '../styles/global.css';
 
@@ -10,7 +12,9 @@ interface Props {
   home?: boolean;        // home page renders its own sections, without page header
 }
 const { title, heading, subtitle, description = 'Andreas Pöttler – Gitarrist, Pädagoge und Songwriter', home = false } = Astro.props;
-const path = Astro.url.pathname.replace(/\/$/, '');
+// built pages are '/vita.html' (build.format 'file') but are served as '/vita'
+const clean = (p: string) => p.replace(/\.html$/, '').replace(/\/index$/, '/');
+const path = clean(stripBase(Astro.url.pathname)).replace(/\/$/, '');
 const nav = [
   ['/vita', 'Über mich'],
   ['/konzerte', 'Konzerte'],
@@ -32,20 +36,20 @@ const full = home ? 'Andreas Pöttler – Gitarrist, Pädagoge, Songwriter' : `$
     <title>{full}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0b1f3a" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    {preview ? <meta name="robots" content="noindex, nofollow" /> : <link rel="canonical" href={new URL(clean(Astro.url.pathname), Astro.site)} />}
   </head>
   <body>
     <a class="skip" href="#inhalt">Zum Inhalt</a>
     <header class="site">
       <div class="wrap">
-        <a class="brand" href="/">Andreas Pöttler</a>
+        <a class="brand" href={url('/')}>Andreas Pöttler</a>
         <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mainnav">Menü</button>
         <nav class="main" id="mainnav" aria-label="Hauptnavigation">
           <ul>
             {nav.map(([href, label]) => (
-              <li><a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a></li>
+              <li><a href={url(href)} aria-current={path === href ? 'page' : undefined}>{label}</a></li>
             ))}
-            <li><a class="cta" href="/unterricht#termin">Termin buchen</a></li>
+            <li><a class="cta" href={url('/unterricht#termin')}>Termin buchen</a></li>
           </ul>
         </nav>
       </div>
@@ -74,7 +78,7 @@ const full = home ? 'Andreas Pöttler – Gitarrist, Pädagoge, Songwriter' : `$
           </div>
           <div>
             <h2>Seiten</h2>
-            <ul>{nav.map(([href, label]) => <li><a href={href}>{label}</a></li>)}</ul>
+            <ul>{nav.map(([href, label]) => <li><a href={url(href)}>{label}</a></li>)}</ul>
           </div>
           <div>
             <h2>Kontakt</h2>
@@ -87,7 +91,7 @@ const full = home ? 'Andreas Pöttler – Gitarrist, Pädagoge, Songwriter' : `$
         </div>
         <div class="legal">
           <span>© {new Date().getFullYear()} Andreas Pöttler</span>
-          <span><a href="/impressum">Impressum</a> &nbsp;·&nbsp; <a href="/datenschutz">Datenschutz</a></span>
+          <span><a href={url('/impressum')}>Impressum</a> &nbsp;·&nbsp; <a href={url('/datenschutz')}>Datenschutz</a></span>
         </div>
       </div>
     </footer>

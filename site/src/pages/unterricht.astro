@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { apiBase, bookingEnabled } from '../lib/config';
 ---
 <Base title="Unterricht" heading="Gitarrenunterricht" description="Gitarrenunterricht bei Andreas Pöttler – Termin online anfragen.">
   <p class="lead">Sie oder Ihr Kind möchten Gitarre spielen? Sehr gerne biete ich professionellen Unterricht an – für Kinder ab 4 Jahren, Jugendliche und musikbegeisterte Erwachsene, auch online.</p>
@@ -16,8 +17,16 @@ import Base from '../layouts/Base.astro';
   <h2 id="termin">Termin anfragen</h2>
   <p>Wählen Sie einen freien Termin (Probestunde oder regulärer Unterricht). Ich bestätige Ihre Anfrage per E-Mail.</p>
 
-  <form id="book" class="stack" novalidate>
-    <div id="slots" aria-live="polite">Termine werden geladen …</div>
+  {!bookingEnabled && <p class="notice">Vorschau: Die Online-Buchung ist hier noch nicht aktiv. Bitte kontaktieren Sie mich in der Zwischenzeit per Telefon oder E-Mail.</p>}
+  <form id="book" class="stack" novalidate data-api={apiBase} data-enabled={String(bookingEnabled)}>
+   <fieldset disabled={!bookingEnabled}>
+    <div id="slots" aria-live="polite">
+      {bookingEnabled ? 'Termine werden geladen …' : (
+        <div class="day"><h3>Beispieltermine</h3><div class="slots">
+          {['15:00', '15:45', '16:30', '17:15'].map((t) => <label><input type="radio" name="slot" disabled /><span>{t} Uhr</span></label>)}
+        </div></div>
+      )}
+    </div>
     <label>Name <input name="name" required autocomplete="name" /></label>
     <label>E-Mail <input name="email" type="email" required autocomplete="email" /></label>
     <label>Telefon (optional) <input name="phone" type="tel" autocomplete="tel" /></label>
@@ -30,6 +39,7 @@ import Base from '../layouts/Base.astro';
     <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
     <div><button type="submit" disabled>Termin anfragen</button></div>
     <div id="result" role="status"></div>
+   </fieldset>
   </form>
 </Base>
 
@@ -38,6 +48,7 @@ import Base from '../layouts/Base.astro';
   const slotsEl = document.getElementById('slots')!;
   const result = document.getElementById('result')!;
   const button = form.querySelector('button')!;
+  const api = form.dataset.api!;
   const fmtDay = new Intl.DateTimeFormat('de-AT', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
 
   function show(msg: string, error = false) {
@@ -47,7 +58,7 @@ import Base from '../layouts/Base.astro';
 
   async function load() {
     try {
-      const res = await fetch('/api/slots');
+      const res = await fetch(`${api}/slots`);
       const { slots } = (await res.json()) as { slots: string[] };
       if (!slots.length) { slotsEl.textContent = 'Derzeit sind keine freien Termine verfügbar. Bitte kontaktieren Sie mich direkt.'; return; }
       const byDay = new Map<string, string[]>();
@@ -77,12 +88,12 @@ import Base from '../layouts/Base.astro';
     button.disabled = true;
     const data = Object.fromEntries(new FormData(form));
     try {
-      const res = await fetch('/api/lessons', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
+      const res = await fetch(`${api}/lessons`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
       const body = await res.json();
       if (!res.ok) { show(body.error ?? 'Fehler beim Senden.', true); if (res.status === 409) load(); button.disabled = false; return; }
       form.reset(); show('Danke! Ihre Anfrage ist eingegangen. Ich melde mich per E-Mail zur Bestätigung.'); load();
     } catch { show('Netzwerkfehler. Bitte später erneut versuchen.', true); button.disabled = false; }
   });
 
-  load();
+  if (form.dataset.enabled === 'true') load();
 </script>
