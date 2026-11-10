@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { apiBase, bookingEnabled } from '../lib/config';
+import { url } from '../lib/url';
+import { bookingEnabled, calLink } from '../lib/config';
 ---
 <Base title="Unterricht" heading="Gitarrenunterricht" description="Gitarrenunterricht bei Andreas Pöttler – Termin online anfragen.">
   <p class="lead">Sie oder Ihr Kind möchten Gitarre spielen? Sehr gerne biete ich professionellen Unterricht an – für Kinder ab 4 Jahren, Jugendliche und musikbegeisterte Erwachsene, auch online.</p>
@@ -14,86 +15,23 @@ import { apiBase, bookingEnabled } from '../lib/config';
   </ul>
   <p>Ich unterrichte seit meinem 19. Lebensjahr. Der Unterricht wird an das jeweilige Tempo angepasst, Interessen und Ziele werden individuell festgelegt – und für Lieblingslieder bleibt genügend Raum.</p>
 
-  <h2 id="termin">Termin anfragen</h2>
-  <p>Wählen Sie einen freien Termin (Probestunde oder regulärer Unterricht). Ich bestätige Ihre Anfrage per E-Mail.</p>
+  <h2 id="termin">Termin buchen</h2>
+  <p>Wählen Sie im Kalender einen freien Termin (Probestunde oder regulärer Unterricht). Sie erhalten sofort eine Bestätigung per E-Mail.</p>
 
   {!bookingEnabled && <p class="notice">Vorschau: Die Online-Buchung ist hier noch nicht aktiv. Bitte kontaktieren Sie mich in der Zwischenzeit per Telefon oder E-Mail.</p>}
-  <form id="book" class="stack" novalidate data-api={apiBase} data-enabled={String(bookingEnabled)}>
-   <fieldset disabled={!bookingEnabled}>
-    <div id="slots" aria-live="polite">
-      {bookingEnabled ? 'Termine werden geladen …' : (
-        <div class="day"><h3>Beispieltermine</h3><div class="slots">
-          {['15:00', '15:45', '16:30', '17:15'].map((t) => <label><input type="radio" name="slot" disabled /><span>{t} Uhr</span></label>)}
-        </div></div>
-      )}
-    </div>
-    <label>Name <input name="name" required autocomplete="name" /></label>
-    <label>E-Mail <input name="email" type="email" required autocomplete="email" /></label>
-    <label>Telefon (optional) <input name="phone" type="tel" autocomplete="tel" /></label>
-    <label>Instrument / Niveau
-      <select name="level">
-        <option>Anfänger</option><option>Fortgeschritten</option><option>Wettbewerbsvorbereitung</option>
-      </select>
-    </label>
-    <label>Nachricht (optional) <textarea name="message" rows="3"></textarea></label>
-    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-    <div><button type="submit" disabled>Termin anfragen</button></div>
-    <div id="result" role="status"></div>
-   </fieldset>
-  </form>
+  <div class="card cal-box" id="cal" data-src={bookingEnabled ? `https://cal.com/${calLink}?embed=true&theme=light` : ''}>
+    <p>Der Terminkalender wird von Cal.com bereitgestellt. Beim Laden werden Daten an Cal.com übertragen (<a href={url('/datenschutz')}>Datenschutz</a>).</p>
+    <button class="btn" type="button" id="cal-load" disabled={!bookingEnabled}>Terminkalender laden</button>
+    {bookingEnabled && <a class="alt" href={`https://cal.com/${calLink}`} rel="noopener">oder in einem neuen Tab öffnen</a>}
+  </div>
 </Base>
 
 <script>
-  const form = document.getElementById('book') as HTMLFormElement;
-  const slotsEl = document.getElementById('slots')!;
-  const result = document.getElementById('result')!;
-  const button = form.querySelector('button')!;
-  const api = form.dataset.api!;
-  const fmtDay = new Intl.DateTimeFormat('de-AT', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
-
-  function show(msg: string, error = false) {
-    result.className = 'notice' + (error ? ' error' : '');
-    result.textContent = msg;
-  }
-
-  async function load() {
-    try {
-      const res = await fetch(`${api}/slots`);
-      const { slots } = (await res.json()) as { slots: string[] };
-      if (!slots.length) { slotsEl.textContent = 'Derzeit sind keine freien Termine verfügbar. Bitte kontaktieren Sie mich direkt.'; return; }
-      const byDay = new Map<string, string[]>();
-      for (const s of slots) { const d = s.slice(0, 10); byDay.set(d, [...(byDay.get(d) ?? []), s]); }
-      slotsEl.replaceChildren();
-      for (const [day, list] of byDay) {
-        const wrap = document.createElement('div'); wrap.className = 'day';
-        const h = document.createElement('h3'); h.textContent = fmtDay.format(new Date(day + 'T00:00:00Z'));
-        const row = document.createElement('div'); row.className = 'slots';
-        for (const s of list) {
-          const l = document.createElement('label');
-          const i = document.createElement('input'); i.type = 'radio'; i.name = 'slot'; i.value = s; i.required = true;
-          const sp = document.createElement('span'); sp.textContent = s.slice(11) + ' Uhr';
-          l.append(i, sp); row.append(l);
-        }
-        wrap.append(h, row); slotsEl.append(wrap);
-      }
-      button.disabled = false;
-    } catch {
-      slotsEl.textContent = 'Termine konnten nicht geladen werden. Bitte versuchen Sie es später erneut.';
-    }
-  }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!form.reportValidity()) return;
-    button.disabled = true;
-    const data = Object.fromEntries(new FormData(form));
-    try {
-      const res = await fetch(`${api}/lessons`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
-      const body = await res.json();
-      if (!res.ok) { show(body.error ?? 'Fehler beim Senden.', true); if (res.status === 409) load(); button.disabled = false; return; }
-      form.reset(); show('Danke! Ihre Anfrage ist eingegangen. Ich melde mich per E-Mail zur Bestätigung.'); load();
-    } catch { show('Netzwerkfehler. Bitte später erneut versuchen.', true); button.disabled = false; }
+  const box = document.getElementById('cal')!;
+  document.getElementById('cal-load')!.addEventListener('click', () => {
+    const f = document.createElement('iframe');
+    f.src = box.dataset.src!; f.title = 'Terminkalender'; f.loading = 'lazy';
+    f.className = 'cal-frame';
+    box.replaceWith(f);
   });
-
-  if (form.dataset.enabled === 'true') load();
 </script>

@@ -1,19 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
-import { apiBase, bookingEnabled } from '../lib/config';
+import { url } from '../lib/url';
+import { formEndpoint, formKey, ordersEnabled } from '../lib/config';
 import books from '../../../content/books.json';
 const eur = new Intl.NumberFormat('de-AT', { style: 'currency', currency: 'EUR' });
 ---
 <Base title="Bücher" description="Bücher und Noten von Andreas Pöttler bestellen.">
-  <p>Bestellen Sie direkt bei mir. Sie erhalten eine Bestätigung per E-Mail, Zahlung erfolgt per Rechnung.</p>
+  <p>Bestellen Sie direkt bei mir. Ich melde mich per E-Mail mit der Bestätigung, Zahlung erfolgt per Rechnung.</p>
+  <p><small>Beim Absenden wird Ihre Bestellung über den Dienst Web3Forms an mich übermittelt (<a href={url('/datenschutz')}>Datenschutz</a>).</small></p>
 
-  {!bookingEnabled && <p class="notice">Vorschau: Die Online-Bestellung ist hier noch nicht aktiv. Bitte kontaktieren Sie mich in der Zwischenzeit per Telefon oder E-Mail.</p>}
-  <form id="order" class="stack" novalidate data-api={apiBase}>
-   <fieldset disabled={!bookingEnabled}>
+  {!ordersEnabled && <p class="notice">Vorschau: Die Online-Bestellung ist hier noch nicht aktiv. Bitte kontaktieren Sie mich in der Zwischenzeit per Telefon oder E-Mail.</p>}
+  <form id="order" class="stack" novalidate data-endpoint={formEndpoint} data-key={formKey}>
+   <fieldset disabled={!ordersEnabled}>
     {books.map((b) => (
       <label>
         <span><strong>{b.title}</strong> – {eur.format(b.priceCents / 100)}<br /><small>{b.description}</small></span>
-        <input type="number" min="0" max="20" value="0" data-book={b.id} aria-label={`Anzahl ${b.title}`} />
+        <input type="number" min="0" max="20" value="0" data-book={b.id} data-title={b.title} data-price={b.priceCents} aria-label={`Anzahl ${b.title}`} />
       </label>
     ))}
     <label>Name <input name="name" required autocomplete="name" /></label>
@@ -31,22 +33,37 @@ const eur = new Intl.NumberFormat('de-AT', { style: 'currency', currency: 'EUR' 
   const form = document.getElementById('order') as HTMLFormElement;
   const result = document.getElementById('result')!;
   const button = form.querySelector('button')!;
-  const api = form.dataset.api!;
+  const eur = new Intl.NumberFormat('de-AT', { style: 'currency', currency: 'EUR' });
   function show(msg: string, error = false) { result.className = 'notice' + (error ? ' error' : ''); result.textContent = msg; }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const items = [...form.querySelectorAll<HTMLInputElement>('input[data-book]')]
-      .map((i) => ({ id: i.dataset.book!, qty: Number(i.value) })).filter((i) => i.qty > 0);
-    if (!items.length) return show('Bitte mindestens ein Buch auswählen.', true);
+    const lines = [...form.querySelectorAll<HTMLInputElement>('input[data-book]')]
+      .map((i) => ({ qty: Number(i.value), title: i.dataset.title!, cents: Number(i.dataset.price) })).filter((l) => l.qty > 0);
+    if (!lines.length) return show('Bitte mindestens ein Buch auswählen.', true);
     if (!form.reportValidity()) return;
+    const fd = Object.fromEntries(new FormData(form)) as Record<string, string>;
+    if (fd.website) { form.reset(); return show('Danke! Ihre Bestellung ist eingegangen.'); } // honeypot
+    const total = lines.reduce((s, l) => s + l.qty * l.cents, 0);
+    const message = [
+      ...lines.map((l) => `${l.qty}× ${l.title} (${eur.format(l.cents / 100)})`),
+      `Summe: ${eur.format(total / 100)}`,
+      '', `Name: ${fd.name}`, `E-Mail: ${fd.email}`, `Lieferadresse:\n${fd.address}`,
+      ...(fd.message ? ['', `Anmerkung: ${fd.message}`] : []),
+    ].join('\n');
     button.disabled = true;
-    const fd = Object.fromEntries(new FormData(form));
     try {
-      const res = await fetch(`${api}/orders`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ ...fd, items }) });
-      const body = await res.json();
-      if (!res.ok) { show(body.error ?? 'Fehler beim Senden.', true); button.disabled = false; return; }
-      form.reset(); show('Danke! Ihre Bestellung ist eingegangen. Sie erhalten eine Bestätigung per E-Mail.'); button.disabled = false;
-    } catch { show('Netzwerkfehler. Bitte später erneut versuchen.', true); button.disabled = false; }
+      const res = await fetch(form.dataset.endpoint!, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', accept: 'application/json' },
+        body: JSON.stringify({ access_key: form.dataset.key, subject: 'Neue Buchbestellung', from_name: fd.name, email: fd.email, message }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok || body.success === false) throw new Error(body.message ?? String(res.status));
+      form.reset(); show('Danke! Ihre Bestellung ist eingegangen. Ich melde mich per E-Mail.');
+    } catch {
+      show('Die Bestellung konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie mir direkt per E-Mail.', true);
+    }
+    button.disabled = false;
   });
 </script>

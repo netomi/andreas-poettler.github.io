@@ -1,5 +1,7 @@
 # Preview deployment of the static site to GitHub Pages.
-# Booking/orders need the API, so the forms are visible but disabled here.
+# Lessons are booked via an embedded Cal.com calendar, book orders go to Web3Forms (form-to-email).
+# Both are configured with repository variables (Settings > Secrets and variables > Actions > Variables);
+# while a variable is empty the feature is shown but disabled.
 name: Deploy preview to GitHub Pages
 on:
   push:
@@ -18,7 +20,8 @@ jobs:
     env:
       SITE_URL: https://netomi.github.io
       BASE_PATH: /andreas-poettler.github.io
-      PUBLIC_BOOKING: "off"
+      PUBLIC_CAL_LINK: ${{ vars.PUBLIC_CAL_LINK }}   # e.g. andreas-poettler/probestunde
+      PUBLIC_FORM_KEY: ${{ vars.PUBLIC_FORM_KEY }}   # Web3Forms access key (public by design)
       PUBLIC_PREVIEW: "true"
     steps:
       - uses: actions/checkout@v4
