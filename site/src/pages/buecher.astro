@@ -6,31 +6,38 @@ import books from '../../../content/books.json';
 const eur = new Intl.NumberFormat('de-AT', { style: 'currency', currency: 'EUR' });
 ---
 <Base title="Bücher" description="Bücher und Noten von Andreas Pöttler bestellen.">
-  <p>Bestellen Sie direkt bei mir. Ich melde mich per E-Mail mit der Bestätigung, Zahlung erfolgt per Rechnung.</p>
-  <p><small>Beim Absenden wird Ihre Bestellung über den Dienst Web3Forms an mich übermittelt (<a href={url('/datenschutz')}>Datenschutz</a>).</small></p>
+  {ordersEnabled ? (
+    <>
+      <p>Bestellen Sie direkt bei mir. Ich melde mich per E-Mail mit der Bestätigung, Zahlung erfolgt per Rechnung.</p>
+      <p><small>Beim Absenden wird Ihre Bestellung über den Dienst Web3Forms an mich übermittelt (<a href={url('/datenschutz')}>Datenschutz</a>).</small></p>
 
-  {!ordersEnabled && <p class="notice">Vorschau: Die Online-Bestellung ist hier noch nicht aktiv. Bitte kontaktieren Sie mich in der Zwischenzeit per Telefon oder E-Mail.</p>}
-  <form id="order" class="stack" novalidate data-endpoint={formEndpoint} data-key={formKey}>
-   <fieldset disabled={!ordersEnabled}>
-    {books.map((b) => (
-      <label>
-        <span><strong>{b.title}</strong> – {eur.format(b.priceCents / 100)}<br /><small>{b.description}</small></span>
-        <input type="number" min="0" max="20" value="0" data-book={b.id} data-title={b.title} data-price={b.priceCents} aria-label={`Anzahl ${b.title}`} />
-      </label>
-    ))}
-    <label>Name <input name="name" required autocomplete="name" /></label>
-    <label>E-Mail <input name="email" type="email" required autocomplete="email" /></label>
-    <label>Lieferadresse <textarea name="address" rows="3" required autocomplete="street-address"></textarea></label>
-    <label>Anmerkung (optional) <textarea name="message" rows="2"></textarea></label>
-    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-    <div><button type="submit">Bestellung senden</button></div>
-    <div id="result" role="status"></div>
-   </fieldset>
-  </form>
+      <form id="order" class="stack" novalidate data-endpoint={formEndpoint} data-key={formKey}>
+        {books.map((b) => (
+          <label>
+            <span><strong>{b.title}</strong> – {eur.format(b.priceCents / 100)}<br /><small>{b.description}</small></span>
+            <input type="number" min="0" max="20" value="0" data-book={b.id} data-title={b.title} data-price={b.priceCents} aria-label={`Anzahl ${b.title}`} />
+          </label>
+        ))}
+        <label>Name <input name="name" required autocomplete="name" /></label>
+        <label>E-Mail <input name="email" type="email" required autocomplete="email" /></label>
+        <label>Lieferadresse <textarea name="address" rows="3" required autocomplete="street-address"></textarea></label>
+        <label>Anmerkung (optional) <textarea name="message" rows="2"></textarea></label>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <div><button type="submit">Bestellung senden</button></div>
+        <div id="result" role="status"></div>
+      </form>
+    </>
+  ) : (
+    <>
+      <p class="lead">Lehrbücher, Übungshefte und CDs – die Bestellung hier auf der Website folgt bald.</p>
+      <p>Bis dahin erreichen Sie mich gerne direkt für Bestellungen und Fragen: <a href="tel:+436811085410">+43 681 108 541 10</a> oder <a href="mailto:poettler.andreas@gmx.at">poettler.andreas@gmx.at</a>.</p>
+    </>
+  )}
 </Base>
 
 <script>
-  const form = document.getElementById('order') as HTMLFormElement;
+  const form = document.getElementById('order') as HTMLFormElement | null;
+if (form) {
   const result = document.getElementById('result')!;
   const button = form.querySelector('button')!;
   const eur = new Intl.NumberFormat('de-AT', { style: 'currency', currency: 'EUR' });
@@ -66,4 +73,5 @@ const eur = new Intl.NumberFormat('de-AT', { style: 'currency', currency: 'EUR' 
     }
     button.disabled = false;
   });
+}
 </script>
