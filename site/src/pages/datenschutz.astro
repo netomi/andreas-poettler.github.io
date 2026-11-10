@@ -1,6 +1,50 @@
 ---
 import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+// DRAFT. Facts to verify before going live (see README / hand-over notes):
+//  - GitHub: current wording of the transfer basis (DPF / SCC) in GitHub's General Privacy Statement
+//  - Web3Forms: legal entity name/address, retention, sub-processors (their site blocked automated reading)
+//  - Cal.com: whether EU data residency is wanted; which video tool is used for online lessons
+//  - Hosting: if the site moves away from GitHub Pages (e.g. Hetzner), rewrite the "Hosting" section.
 ---
-<Base title="Datenschutz">
-  <p class="notice">Platzhalter – rechtlich geprüfter Text folgt (Angaben nach § 5 ECG / DSGVO).</p>
+<Base title="Datenschutz" heading="Datenschutzerklärung">
+  <p class="notice">Entwurf – vor der Veröffentlichung auf der Live-Domain rechtlich prüfen lassen.</p>
+
+  <h2>1. Verantwortlicher</h2>
+  <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:<br />
+    Andreas Pöttler<br />Rabenwald 135, 8225 Pöllau, Österreich<br />
+    Tel.: <a href="tel:+436811085410">+43 681 108 541 10</a><br />
+    E-Mail: <a href="mailto:poettler.andreas@gmx.at">poettler.andreas@gmx.at</a></p>
+
+  <h2>2. Überblick</h2>
+  <p>Diese Website verwendet <strong>keine Cookies</strong>, <strong>keine Analyse- oder Tracking-Werkzeuge</strong> und <strong>keine Werbung</strong>. Die verwendete Schrift wird von der Website selbst ausgeliefert, es findet keine Verbindung zu Schriftarten-Servern von Google statt. Externe Dienste (Terminkalender, Videos) werden erst nach Ihrem Klick geladen. Ihre Daten werden nur verarbeitet, soweit dies in dieser Erklärung beschrieben ist.</p>
+
+  <h2>3. Hosting (GitHub Pages)</h2>
+  <p>Diese Website wird über GitHub Pages bereitgestellt. Anbieter ist die GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA (ein Unternehmen der Microsoft-Gruppe). Beim Aufruf der Website verarbeitet GitHub technisch notwendige Daten, insbesondere Ihre IP-Adresse, Datum und Uhrzeit des Abrufs, die abgerufene Seite sowie Browser- und Geräteinformationen, und speichert diese in Server-Protokollen, auch zur Gewährleistung der Sicherheit.</p>
+  <p>Rechtsgrundlage ist unser berechtigtes Interesse an einer sicheren und effizienten Bereitstellung der Website (Art. 6 Abs. 1 lit. f DSGVO). Da GitHub Daten auch in den USA verarbeitet, stützt sich die Übermittlung auf die von GitHub bereitgestellten Garantien (EU-Standardvertragsklauseln bzw. den Angemessenheitsbeschluss zum EU-U.S. Data Privacy Framework, soweit zertifiziert). Weitere Informationen: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub General Privacy Statement</a>.</p>
+
+  <h2>4. Kontaktaufnahme per E-Mail oder Telefon</h2>
+  <p>Wenn Sie mich per E-Mail oder Telefon kontaktieren, verarbeite ich Ihre Angaben (z. B. Name, Kontaktdaten, Inhalt der Anfrage) zur Bearbeitung Ihrer Anfrage und für den Fall von Anschlussfragen. Rechtsgrundlage ist die Anbahnung oder Erfüllung eines Vertrags (Art. 6 Abs. 1 lit. b DSGVO) bzw. mein berechtigtes Interesse an der Beantwortung von Anfragen (Art. 6 Abs. 1 lit. f DSGVO). Die Daten werden gelöscht, sobald sie nicht mehr benötigt werden und keine gesetzlichen Aufbewahrungspflichten bestehen. Mein E-Mail-Postfach wird bei GMX geführt.</p>
+
+  <h2>5. Terminbuchung für Unterricht (Cal.com)</h2>
+  <p>Auf der Seite <a href={url('/unterricht')}>Unterricht</a> können Sie über einen eingebetteten Kalender des Dienstes Cal.com einen Termin buchen. Der Kalender wird erst geladen, wenn Sie auf „Terminkalender laden“ klicken. Erst dann wird eine Verbindung zu Cal.com hergestellt und dabei z. B. Ihre IP-Adresse sowie Browser- und Geräteinformationen übertragen. Rechtsgrundlage für das Laden ist Ihre Einwilligung durch den Klick (Art. 6 Abs. 1 lit. a DSGVO), die Sie jederzeit mit Wirkung für die Zukunft widerrufen können, indem Sie den Kalender nicht laden bzw. die Seite verlassen.</p>
+  <p>Bei einer Buchung werden die von Ihnen eingegebenen Daten verarbeitet, insbesondere Name, E-Mail-Adresse, gewählter Termin und etwaige Angaben und Nachrichten. Zweck ist die Vereinbarung und Durchführung des Unterrichts, Rechtsgrundlage ist die Anbahnung bzw. Erfüllung eines Vertrags (Art. 6 Abs. 1 lit. b DSGVO). Bestätigungs- und Erinnerungs-E-Mails werden über Cal.com versendet. Für Online-Unterricht kann ein Videodienst (z. B. Cal Video) verwendet werden, der bei der Buchung angezeigt wird.</p>
+  <p>Anbieter ist die Cal.com, Inc., 2261 Market Street #4382, San Francisco, CA 94114, USA. Cal.com verarbeitet die Buchungsdaten in meinem Auftrag; die Daten werden in den USA verarbeitet. Cal.com gibt an, nach dem EU-U.S. Data Privacy Framework zertifiziert zu sein, und stützt Übermittlungen im Übrigen auf EU-Standardvertragsklauseln. Weitere Informationen: <a href="https://cal.com/privacy" rel="noopener">Datenschutzerklärung von Cal.com</a>. Buchungsdaten werden gelöscht, sobald sie für die Abwicklung nicht mehr erforderlich sind, soweit keine gesetzlichen Aufbewahrungspflichten (z. B. Buchhaltung) entgegenstehen.</p>
+
+  <h2>6. Bücherbestellung (Web3Forms)</h2>
+  <p>Auf der Seite <a href={url('/buecher')}>Bücher</a> können Sie Bücher und Noten bestellen. Dazu geben Sie Name, E-Mail-Adresse, Lieferadresse, die gewünschten Titel und optional eine Anmerkung an. Ihre Bestellung wird über den Formulardienst Web3Forms (web3forms.com) an mein E-Mail-Postfach übermittelt. Die Daten werden dabei auf Servern des Dienstes, die sich nach dessen Angaben in den USA befinden, verarbeitet und dort nach dessen Angaben für längstens drei Jahre gespeichert, je nach Tarif auch kürzer. Zur Spam-Abwehr kann Web3Forms Ihre IP-Adresse und E-Mail-Adresse an Dienste zur Spam-Erkennung weitergeben.</p>
+  <p>Zweck ist die Abwicklung Ihrer Bestellung (Lieferung, Rechnung). Rechtsgrundlage ist die Erfüllung bzw. Anbahnung eines Vertrags (Art. 6 Abs. 1 lit. b DSGVO). Wenn Sie nicht möchten, dass Daten über Web3Forms übermittelt werden, können Sie mir Ihre Bestellung auch per E-Mail oder Telefon mitteilen. Daten, die für die Buchhaltung erforderlich sind, bewahre ich entsprechend den gesetzlichen Fristen auf (in Österreich in der Regel sieben Jahre, Art. 6 Abs. 1 lit. c DSGVO), alle übrigen Daten werden danach gelöscht.</p>
+
+  <h2>7. Videos (YouTube)</h2>
+  <p>Auf der Seite <a href={url('/videos')}>Videos</a> sind Videos von YouTube eingebunden, und zwar über die erweiterte Datenschutz-Variante (youtube-nocookie.com). Ein Video wird erst geladen, wenn Sie darauf klicken. Dabei werden Daten, insbesondere Ihre IP-Adresse, an YouTube übertragen. YouTube kann diese Daten auswerten. Anbieter ist die Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland; eine Übermittlung an die Google LLC in den USA ist möglich. Rechtsgrundlage ist Ihre Einwilligung durch den Klick (Art. 6 Abs. 1 lit. a DSGVO), die Sie jederzeit mit Wirkung für die Zukunft widerrufen können. Weitere Informationen: <a href="https://policies.google.com/privacy" rel="noopener">Datenschutzerklärung von Google</a>.</p>
+
+  <h2>8. Ihre Rechte</h2>
+  <p>Sie haben gegenüber mir als Verantwortlichem das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen die Verarbeitung (Art. 21). Eine erteilte Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3 DSGVO). Wenden Sie sich dazu bitte an <a href="mailto:poettler.andreas@gmx.at">poettler.andreas@gmx.at</a>.</p>
+  <p>Sie haben außerdem das Recht, sich bei der Aufsichtsbehörde zu beschweren: Österreichische Datenschutzbehörde, Barichgasse 40–42, 1030 Wien, <a href="mailto:dsb@dsb.gv.at">dsb@dsb.gv.at</a>, <a href="https://www.dsb.gv.at" rel="noopener">www.dsb.gv.at</a>.</p>
+
+  <h2>9. Pflicht zur Bereitstellung, automatisierte Entscheidungen</h2>
+  <p>Die Bereitstellung Ihrer Daten ist nicht gesetzlich vorgeschrieben. Ohne die für eine Buchung oder Bestellung erforderlichen Angaben kann ich Ihre Anfrage aber nicht bearbeiten. Eine automatisierte Entscheidungsfindung einschließlich Profiling findet nicht statt.</p>
+
+  <h2>10. Änderungen</h2>
+  <p>Ich passe diese Erklärung an, wenn sich die Website oder die eingesetzten Dienste ändern. Stand: November 2026.</p>
 </Base>
