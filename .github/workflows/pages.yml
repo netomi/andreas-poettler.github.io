@@ -22,6 +22,7 @@ jobs:
       BASE_PATH: /andreas-poettler.github.io
       PUBLIC_CAL_LINK: ${{ vars.PUBLIC_CAL_LINK }}   # e.g. andreas-poettler/probestunde
       PUBLIC_FORM_KEY: ${{ vars.PUBLIC_FORM_KEY }}   # Web3Forms access key (public by design)
+      PUBLIC_ORDERS: ${{ vars.PUBLIC_ORDERS }}       # "off" = order form visible but disabled (e.g. while books are placeholders)
       PUBLIC_PREVIEW: "true"
     steps:
       - uses: actions/checkout@v4

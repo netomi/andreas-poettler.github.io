@@ -9,6 +9,6 @@ export const bookingEnabled = calLink !== '';
 /** Form-to-email service for book orders (Web3Forms). The access key identifies the recipient mailbox and is public by design. */
 export const formEndpoint: string = env.PUBLIC_FORM_ENDPOINT ?? 'https://api.web3forms.com/submit';
 export const formKey: string = env.PUBLIC_FORM_KEY ?? '';
-export const ordersEnabled = formKey !== '';
+export const ordersEnabled = formKey !== '' && env.PUBLIC_ORDERS !== 'off'; // PUBLIC_ORDERS=off keeps the form visible but disabled
 
 export const preview = env.PUBLIC_PREVIEW === 'true'; // noindex, no canonical

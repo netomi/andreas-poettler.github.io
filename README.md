@@ -14,4 +14,4 @@ Stubs: `content/books.json` and `content/availability.json` hold placeholder dat
 Static site only; no server. Third-party services, configured via repository variables:
 - `PUBLIC_CAL_LINK` – Cal.com booking link (`user/event`) → lesson calendar on `/unterricht` (embedded after click).
 - `PUBLIC_FORM_KEY` – Web3Forms access key → book orders on `/buecher` arrive by email.
-Without a variable the feature is shown but disabled. These services must be named in the privacy policy (Cal.com, Web3Forms, YouTube).
+Without a variable the feature is shown but disabled. `PUBLIC_ORDERS=off` additionally disables the order form while the key stays configured. These services must be named in the privacy policy (Cal.com, Web3Forms, YouTube).
