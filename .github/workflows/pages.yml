@@ -18,12 +18,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      SITE_URL: https://netomi.github.io
-      BASE_PATH: /andreas-poettler.github.io
+      # Preview on github.io until the repo variable CUSTOM_DOMAIN (e.g. andreas-poettler.at) is set; then build for the custom domain.
+      SITE_URL: ${{ vars.CUSTOM_DOMAIN && format('https://{0}', vars.CUSTOM_DOMAIN) || 'https://netomi.github.io' }}
+      BASE_PATH: ${{ vars.CUSTOM_DOMAIN && '/' || '/andreas-poettler.github.io' }}
       PUBLIC_CAL_LINK: ${{ vars.PUBLIC_CAL_LINK }}   # e.g. andreas-poettler/probestunde
       PUBLIC_FORM_KEY: ${{ vars.PUBLIC_FORM_KEY }}   # Web3Forms access key (public by design)
       PUBLIC_ORDERS: ${{ vars.PUBLIC_ORDERS }}       # "off" = order form visible but disabled (e.g. while books are placeholders)
-      PUBLIC_PREVIEW: "true"
+      PUBLIC_PREVIEW: ${{ vars.CUSTOM_DOMAIN && 'false' || 'true' }}   # noindex while on the preview URL
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
